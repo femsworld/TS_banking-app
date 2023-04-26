@@ -1,3 +1,6 @@
+import Customer from "./customer";
+import Branch from "./branch";
+
 class Bank {
   name: string;
   branches: Branch[];
@@ -28,6 +31,7 @@ class Bank {
     if (!this.checkBranch(branch)) {
       return false;
     }
+    console.log('customerID ==', customerId)
     return branch.addCustomerTransaction(customerId, amount);
   }
   findBranchByName(name: string): Branch[] | null {
@@ -58,87 +62,5 @@ class Bank {
     return true;
   }
 }
-class Branch {
-  name: string;
-  customers: Customer[];
 
-  constructor(nameOfBranch: string) {
-    this.name = nameOfBranch;
-    this.customers = [];
-  }
-  getName(): string {
-    return this.name;
-  }
-  getCustomers(): Customer[] {
-    return this.customers;
-  }
-  addCustomer(customer: Customer): boolean {
-    if (this.customers.some((c) => c.id === customer.id)) {
-      return false;
-    }
-    this.customers.push(customer);
-    return true;
-  }
-  addCustomerTransaction(customerId: string, amount: number): boolean {
-    const customer = this.findCustomer(customerId);
-    if (customer === null) {
-      return false;
-    }
-    return customer.addTransaction(amount);
-  }
-  findCustomer(customerId: string): Customer | null {
-    return this.customers.find((c) => c.id === customerId) || null;
-  }
-}
-
-class Customer {
-  name: string;
-  id: string;
-  transactions: Transaction[];
-  //   transactions: { transaction: Transaction }[];
-
-  constructor(nameOfCustomer: string) {
-    this.name = nameOfCustomer;
-    this.transactions = [];
-    this.id = "Femi";
-  }
-  getName(): string {
-    return this.name;
-  }
-  getId(): string {
-    return this.id;
-  }
-  getTransactions(): Transaction[] {
-    return this.transactions;
-  }
-  getBalance(): number {
-    let balance = 0;
-    for (let transaction of this.transactions) {
-      balance += transaction.amount;
-    }
-    return balance;
-  }
-
-  //   addTransaction(amount: number): boolean {
-  //     if (this.balance + amount < 0) {
-  //       return false;
-  //     }
-  //     this.balance += amount;
-  //     this.transactions.push(amount);
-  //     return true;
-  //   }
-  addTransaction(amount: number): boolean {
-    if (this.getBalance() + amount < 0) {
-      return false;
-    }
-    let transaction = new Transaction(amount);
-    this.transactions.push(transaction);
-    return true;
-  }
-}
-
-interface Transaction {
-  amount: number;
-  date: Date;
-  // balance: number;
-}
+export default Bank;
