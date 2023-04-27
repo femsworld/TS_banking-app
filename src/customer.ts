@@ -1,4 +1,5 @@
 class Customer implements Transaction{
+  static nextId = 1;
     name: string;
     id: string;
     amount: number;
@@ -7,7 +8,7 @@ class Customer implements Transaction{
     constructor(nameOfCustomer: string) {
       this.name = nameOfCustomer;
       this.transactions = [];
-      this.id = "001";
+      this.id = `001${Customer.nextId++}`;
       this.amount = 0
       this.date = new Date()
     }
@@ -31,7 +32,8 @@ class Customer implements Transaction{
       if (this.getBalance() + amount < 0) {
         return false;
       }
-      this.amount += amount
+      // this.amount += amount
+      this.amount = amount
       this.transactions.push({amount: this.amount, date: this.date});
       return true;
     }

@@ -3,7 +3,6 @@ import Customer from "./customer";
 class Branch {
     name: string;
     customers: Customer[];
-  
     constructor(nameOfBranch: string) {
       this.name = nameOfBranch;
       this.customers = [];
